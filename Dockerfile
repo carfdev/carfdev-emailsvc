@@ -19,6 +19,7 @@ RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o server ./cmd/mai
 # ─────── Stage 2: Minimal final image ───────
 FROM scratch
 
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /app/server /app/server
 
 ENTRYPOINT ["/app/server"]
